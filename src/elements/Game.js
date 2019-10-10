@@ -890,15 +890,8 @@ class Game extends Component {
               }}
             />
             <Button
-              label="Exit"
-              onClick={() => {
-                this.props.updatePageState(
-                  'question',
-                  'activity',
-                  this.question,
-                  this.slide
-                );
-              }}
+              label="Restart"
+              onClick={() => this.props.updateMap(1)}
             />
           </div>
         </div>
