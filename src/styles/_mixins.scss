@@ -19,7 +19,7 @@
 
 @mixin closeButton {
   @include buttonStyles;
-  background-image: url("https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/T3cy-icon-activity-close.png");
+  background-image: url("../assets/icon-activity-close.png");
   position: absolute;
   right: 0;
   top: 0;
@@ -27,7 +27,7 @@
 
 @mixin lineupBoat {
   @include backgroundNoRepeat(center, contain);
-  background-image: url('https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/mz06-boat.png');
+  background-image: url('../assets/boat.png');
   display: block;
   height: 121px;
   position: absolute;
@@ -39,7 +39,7 @@
 
 @mixin lineupLandmark {
   @include backgroundNoRepeat(center, contain);
-  background-image: url('#{$assetsPath}/pages/location/marker.png');
+  background-image: url('../assets/marker.png');
   display: block;
   height: 46px;
   position: absolute;

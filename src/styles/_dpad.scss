@@ -30,7 +30,7 @@
     @include backgroundNoRepeat(center, 114px);
     align-items: center;
     background-color: $locationDpadBackground;
-    background-image:  url('https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/-OlI-icon-controller-dpad.png');
+    background-image:  url('../assets/icon-controller-dpad.png');
     border-radius: 50%;
     display: flex;
     flex-direction: row;
@@ -87,7 +87,7 @@
       }
 
       &:disabled {
-        background-image: url('https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/g3R1-icon-triangle-left.png');
+        background-image: url('../assets/icon-triangle-left.png');
       }
 
       &.up:disabled {
@@ -151,7 +151,7 @@
     @include backgroundNoRepeat(center, contain);
     align-items: center;
     background-color: transparent;
-    background-image: url('https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/PXgx-icon-mover.png');
+    background-image: url('../assets/icon-mover.png');
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -171,11 +171,11 @@
       width: 50px;
 
       &.left {
-        background-image: url('https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/WaXu-icon-mover-left.png');
+        background-image: url('../assets/icon-mover-left.png');
       }
 
       &.right {
-        background-image: url('https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/E8OV-icon-mover-right.png');
+        background-image: url('../assets/icon-mover-right.png');
       }
 
       &:active {

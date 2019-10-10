@@ -18,19 +18,19 @@
   width: 900px;
 
   &.map-1 {
-    background-image: url("https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/ns4c-map-1-overlay.png");
+    background-image: url("../assets/map-1-overlay.png");
   }
 
   &.map-2 {
-    background-image: url("https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/jjqj-map-2-overlay.png");
+    background-image: url("../assets/map-2-overlay.png");
   }
 
   &.map-3 {
-    background-image: url("https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/ZxZl-map-3-overlay.png");
+    background-image: url("../assets/map-3-overlay.png");
   }
 
   .target {
-    background-image: url("https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/McGh-marker.png");
+    background-image: url("../assets/marker.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;

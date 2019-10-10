@@ -47,7 +47,7 @@
 
         &:before {
           @include backgroundNoRepeat(top, contain);
-          background-image: url("https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/nPOT-icon-turn-small.png");
+          background-image: url("../assets/icon-turn-small.png");
           content: ' ';
           float: left;
           height: 42px;
@@ -63,7 +63,7 @@
 
         &:before {
           @include backgroundNoRepeat(top, contain);
-          background-image: url("https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/nPOT-icon-turn-small.png");
+          background-image: url("../assets/icon-turn-small.png");
           content: ' ';
           float: left;
           height: 42px;
@@ -77,7 +77,7 @@
 
         &:before {
           @include backgroundNoRepeat(top, contain);
-          background-image: url("https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/nxjX-icon-foundit.png");
+          background-image: url("../assets/icon-foundit.png");
           content: ' ';
           float: left;
           height: 42px;
