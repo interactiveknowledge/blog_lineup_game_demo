@@ -15,7 +15,7 @@ To run the demo game locally:
 
 ## Note
 
-This game was originally created for a kiosk, so it is not responsive. It's best viewed on desktop or screen that is 1080px or wider.
+This game was originally created for a kiosk, so it is not responsive. It's best viewed on desktop or screen that is 1100px or wider.
 
 ## License
 
