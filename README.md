@@ -1,8 +1,9 @@
 # blog_lineup_game_demo
 
-The following is code related to a blog post to demo the project work mentioned. You can read the blog post here.
+The following is code related to a blog post to demo the project work mentioned.
 
 View the [Live Demo](https://ik-blog-linup-demo.herokuapp.com/).
+Read the Blog Post: [Pay attention in math class, kids](https://interactiveknowledge.com/blog).
 
 ## To Install and Run
 
