@@ -1,0 +1,15 @@
+parser: babel-eslint
+
+extends:
+  - prettier-standard
+  - standard
+  - standard-react
+
+rules:
+  prettier/prettier:
+    - semi: false
+    - severity: 1
+    - singleQuote: true
+  space-before-function-paren:
+    - error
+    - always
