@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import debounce from "lodash.debounce";
+import React, { Component } from 'react'
+import debounce from 'lodash.debounce'
 
-import Button from "./Button";
+import Button from './Button'
 
 /**
  * Modal component is a generic modal that can be used sitewide.
@@ -9,11 +9,11 @@ import Button from "./Button";
  */
 
 class Modal extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
-    this.debounceAction = debounce(this.handleClick, 500);
-    this.handleClick = this.handleClick.bind(this);
+    this.debounceAction = debounce(this.handleClick, 500)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   /**
@@ -21,39 +21,38 @@ class Modal extends Component {
    * @param {string} type string that determines which method to call on user click.
    */
   handleClick = type => {
-    if (type === "close") {
-      this.props.close();
-      return;
+    if (type === 'close') {
+      this.props.close()
     }
   };
 
-  render() {
+  render () {
     return (
       <div
-        id={this.props.id ? this.props.id : "modal"}
-        className={this.props.classes ? "modal " + this.props.classes : "modal"}
+        id={this.props.id ? this.props.id : 'modal'}
+        className={this.props.classes ? 'modal ' + this.props.classes : 'modal'}
       >
         <div
           id={
-            this.props.id ? this.props.id + "-foreground" : "modal-foreground"
+            this.props.id ? this.props.id + '-foreground' : 'modal-foreground'
           }
-          className="modal-foreground"
+          className='modal-foreground'
         >
-          <div className="close" onClick={() => this.debounceAction("close")}>
+          <div className='close' onClick={() => this.debounceAction('close')}>
             Close
           </div>
 
           <div
-            id={this.props.id ? this.props.id + "-inner" : "modal-inner"}
-            className="modal-inner"
+            id={this.props.id ? this.props.id + '-inner' : 'modal-inner'}
+            className='modal-inner'
           >
             <h1>How To Play This Game</h1>
-            <div className="text">
+            <div className='text'>
               <p>
                 Drive your boat with the “<strong>MOVE</strong>” control or use the arrow keys.
               </p>
               <p>
-                Rotate your boat with the “<strong>TURN</strong>” control or “<strong>L</strong>” and “<strong>R</strong>” keys.{" "}
+                Rotate your boat with the “<strong>TURN</strong>” control or “<strong>L</strong>” and “<strong>R</strong>” keys.{' '}
               </p>
               <p>
                 When you are positioned for the line-up, press the “
@@ -61,16 +60,16 @@ class Modal extends Component {
               </p>
             </div>
             <Button
-              label="Ok"
+              label='Ok'
               onClick={() => {
-                this.debounceAction("close");
+                this.debounceAction('close')
               }}
             />
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Modal;
+export default Modal

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
 /**
  * GameLineup - Finding a Line Up.
@@ -7,32 +7,32 @@ import React, { Component } from "react";
  * @see Game.js
  */
 
-import Game from "./elements/Game";
-import Header from "./elements/Header";
-import Modal from "./elements/Modal";
+import Game from './elements/Game'
+import Header from './elements/Header'
+import Modal from './elements/Modal'
 
 const data = {
   maps: [
     {
-      boat: { top: 580, left: 800, transform: "rotate(45deg)" },
+      boat: { top: 580, left: 800, transform: 'rotate(45deg)' },
       disabled: { n: false, e: true, s: true, w: false },
-      ready: "ready",
+      ready: 'ready',
       stage: 1
     },
     {
-      boat: { top: 580, left: 220, transform: "rotate(135deg)" },
+      boat: { top: 580, left: 220, transform: 'rotate(135deg)' },
       disabled: { n: false, e: false, s: true, w: true },
-      ready: "ready",
+      ready: 'ready',
       stage: 1
     },
     {
-      boat: { top: 580, left: 800, transform: "rotate(0deg)" },
+      boat: { top: 580, left: 800, transform: 'rotate(0deg)' },
       disabled: { n: false, e: true, s: true, w: false },
-      ready: "ready",
+      ready: 'ready',
       stage: 1
     }
   ]
-};
+}
 
 class Lineup extends Component {
   state = {
@@ -41,31 +41,31 @@ class Lineup extends Component {
   };
 
   componentDidMount = () => {
-    this.updateMap(1);
+    this.updateMap(1)
   };
 
   /**
    * Method that shows the help modal.
    */
   getModal = () => {
-    const modal = document.getElementById("modal");
+    const modal = document.getElementById('modal')
 
-    modal.setAttribute("style", "display:block;");
-    modal.setAttribute("class", "fadeIn animated modal");
+    modal.setAttribute('style', 'display:block;')
+    modal.setAttribute('class', 'fadeIn animated modal')
   };
 
   /**
    * Method that hides the help modal.
    */
   closeModal = () => {
-    const modal = document.getElementById("modal");
+    const modal = document.getElementById('modal')
 
-    modal.setAttribute("class", "fadeOut animated modal");
+    modal.setAttribute('class', 'fadeOut animated modal')
     setTimeout(() => {
       if (modal) {
-        modal.setAttribute("style", "display:none;");
+        modal.setAttribute('style', 'display:none;')
       }
-    }, 1000);
+    }, 1000)
   };
 
   /**
@@ -77,149 +77,149 @@ class Lineup extends Component {
       started: true,
       map: map,
       mapState: data.maps[map - 1]
-    });
+    })
 
-    const message = document.getElementsByClassName("message");
+    const message = document.getElementsByClassName('message')
 
     if (message.length > 0) {
-      message[0].setAttribute("class", "message active fadeOut animated");
+      message[0].setAttribute('class', 'message active fadeOut animated')
       setTimeout(() => {
         if (message) {
-          message[0].setAttribute("class", "message");
+          message[0].setAttribute('class', 'message')
         }
-      }, 750);
+      }, 750)
     }
 
-    document.getElementById("boat").setAttribute("class", "");
+    document.getElementById('boat').setAttribute('class', '')
 
-    this.loadSky();
+    this.loadSky()
   };
 
   loadSky = () => {
-    const air = document.getElementById("air-layer");
-    const clouds = Math.floor(Math.random() * 3) + 1;
-    const birds = Math.floor(Math.random() * 2) + 1;
-    const min = 40;
-    const max = 60;
+    const air = document.getElementById('air-layer')
+    const clouds = Math.floor(Math.random() * 3) + 1
+    const birds = Math.floor(Math.random() * 2) + 1
+    const min = 40
+    const max = 60
 
     if (air) {
-      air.innerText = null;
+      air.innerText = null
 
       for (let i = 0; i < clouds; i++) {
-        let cloud = document.createElement("div");
-        let locationTop = Math.floor(Math.random() * 780);
-        let locationLeft = Math.floor(Math.random() * 900);
-        let transition = Math.floor(Math.random() * (max - min + 1) + min);
+        let cloud = document.createElement('div')
+        let locationTop = Math.floor(Math.random() * 780)
+        let locationLeft = Math.floor(Math.random() * 900)
+        let transition = Math.floor(Math.random() * (max - min + 1) + min)
         let moveTop = Math.floor(
           Math.random() * (1000 - locationTop + 1) + locationTop
-        );
+        )
 
         cloud.setAttribute(
-          "class",
-          "cloud cloud-" + (Math.floor(Math.random() * 3) + 1)
-        );
+          'class',
+          'cloud cloud-' + (Math.floor(Math.random() * 3) + 1)
+        )
         cloud.setAttribute(
-          "style",
-          "top: " +
+          'style',
+          'top: ' +
             locationTop +
-            "px; left: " +
+            'px; left: ' +
             locationLeft +
-            "px; transition: all " +
+            'px; transition: all ' +
             transition +
-            "s linear;"
-        );
-        air.appendChild(cloud);
+            's linear;'
+        )
+        air.appendChild(cloud)
 
         setTimeout(() => {
           if (cloud) {
             cloud.setAttribute(
-              "style",
-              "top: " +
+              'style',
+              'top: ' +
                 moveTop +
-                "px; left: 1900px; transition: all " +
+                'px; left: 1900px; transition: all ' +
                 transition +
-                "s linear;"
-            );
+                's linear;'
+            )
           }
-        });
+        })
       }
 
       for (let i = 0; i < birds; i++) {
-        let bird = document.createElement("div");
-        let locationTop = Math.floor(Math.random() * 780);
-        let locationLeft = Math.floor(Math.random() * 900);
-        let transition = Math.floor(Math.random() * (max - min + 1) + min);
-        let birdMoveTop = Math.random() < 0.51 ? -200 : 1000;
-        let birdMoveLeft = Math.random() < 0.51 ? -200 : 1000;
-        let transform = null;
+        let bird = document.createElement('div')
+        let locationTop = Math.floor(Math.random() * 780)
+        let locationLeft = Math.floor(Math.random() * 900)
+        let transition = Math.floor(Math.random() * (max - min + 1) + min)
+        let birdMoveTop = Math.random() < 0.51 ? -200 : 1000
+        let birdMoveLeft = Math.random() < 0.51 ? -200 : 1000
+        let transform = null
 
         if (locationTop < 100) {
-          locationTop = 200;
+          locationTop = 200
         }
 
         if (birdMoveTop > 0 && birdMoveLeft > 0) {
-          transform = -145;
+          transform = -145
         } else if (birdMoveTop > 0 && birdMoveLeft < 0) {
-          transform = -45;
+          transform = -45
         } else if (birdMoveTop < 0 && birdMoveLeft > 0) {
-          transform = 145;
+          transform = 145
         } else if (birdMoveTop < 0 && birdMoveLeft < 0) {
-          transform = 45;
+          transform = 45
         }
 
         bird.setAttribute(
-          "class",
-          "bird bird-" + (Math.floor(Math.random() * 3) + 1)
-        );
+          'class',
+          'bird bird-' + (Math.floor(Math.random() * 3) + 1)
+        )
         bird.setAttribute(
-          "style",
-          "top: " +
+          'style',
+          'top: ' +
             locationTop +
-            "px; left: " +
+            'px; left: ' +
             locationLeft +
-            "px; transform: rotate(" +
+            'px; transform: rotate(' +
             transform +
-            "deg);"
-        );
-        air.appendChild(bird);
+            'deg);'
+        )
+        air.appendChild(bird)
 
         setTimeout(() => {
           if (bird) {
             bird.setAttribute(
-              "style",
-              "top: " +
+              'style',
+              'top: ' +
                 birdMoveTop +
-                "px; left: " +
+                'px; left: ' +
                 birdMoveLeft +
-                "px; transform: rotate(" +
+                'px; transform: rotate(' +
                 transform +
-                "deg); transition: all " +
+                'deg); transition: all ' +
                 transition +
-                "s linear;"
-            );
+                's linear;'
+            )
           }
-        }, 500);
+        }, 500)
       }
     } else {
       setTimeout(() => {
-        if (document.getElementById("air-layer")) {
-          this.loadSky();
+        if (document.getElementById('air-layer')) {
+          this.loadSky()
         }
-      }, 500);
+      }, 500)
     }
   };
 
-  render() {
+  render () {
     return (
-      <div className="lineup-game">
+      <div className='lineup-game'>
         <div
           className={
-            "activity-content animated activity-lineup activity-map-" +
+            'activity-content animated activity-lineup activity-map-' +
             this.state.map
           }
         >
           <Header
-            title="Find a Line-Up"
+            title='Find a Line-Up'
             infoClick={() => this.getModal(0, false)}
           />
           {this.state.mapState && (
@@ -232,13 +232,13 @@ class Lineup extends Component {
 
           <Modal
             close={() => {
-              this.closeModal();
+              this.closeModal()
             }}
           />
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Lineup;
+export default Lineup

@@ -1,17 +1,17 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-import Lineup from "./Lineup";
+import Lineup from './Lineup'
 
-import "./styles/styles.scss";
+import './styles/styles.scss'
 
-function App() {
+function App () {
   return (
-    <div className="App">
+    <div className='App'>
       <Lineup />
     </div>
-  );
+  )
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
+const rootElement = document.getElementById('root')
+ReactDOM.render(<App />, rootElement)

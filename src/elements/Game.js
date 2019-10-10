@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import AudioPlayer from 'react-audio-player';
-import CloneDeep from 'clone-deep';
+import React, { Component } from 'react'
+import AudioPlayer from 'react-audio-player'
+import CloneDeep from 'clone-deep'
 
 /**
  * The interactive game of the GameLineup.js activity.
@@ -9,47 +9,47 @@ import CloneDeep from 'clone-deep';
  * @uses clone-deep
  */
 
-import Boat from './Boat';
-import Button from './Button';
-import DPad from './DPad';
-import Target from './Target';
+import Boat from './Boat'
+import Button from './Button'
+import DPad from './DPad'
+import Target from './Target'
 
-import canvasImg1 from '../assets/map-1.png';
-import canvasImg2 from '../assets/map-2.png';
-import canvasImg3 from '../assets/map-3.png';
+import canvasImg1 from '../assets/map-1.png'
+import canvasImg2 from '../assets/map-2.png'
+import canvasImg3 from '../assets/map-3.png'
 
 class Game extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
-    this.doItForMe = this.doItForMe.bind(this);
-    this.getDirection = this.getDirection.bind(this);
-    this.getPixel = this.getPixel.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.handleRotate = this.handleRotate.bind(this);
-    this.isLandCollision = this.isLandCollision.bind(this);
-    this.loadImage = this.loadImage.bind(this);
-    this.moveBoat = this.moveBoat.bind(this);
-    this.onClickDPad = this.onClickDPad.bind(this);
-    this.onClickMessage = this.onClickMessage.bind(this);
+    this.doItForMe = this.doItForMe.bind(this)
+    this.getDirection = this.getDirection.bind(this)
+    this.getPixel = this.getPixel.bind(this)
+    this.handleKeyPress = this.handleKeyPress.bind(this)
+    this.handleRotate = this.handleRotate.bind(this)
+    this.isLandCollision = this.isLandCollision.bind(this)
+    this.loadImage = this.loadImage.bind(this)
+    this.moveBoat = this.moveBoat.bind(this)
+    this.onClickDPad = this.onClickDPad.bind(this)
+    this.onClickMessage = this.onClickMessage.bind(this)
 
-    this.question = this.props.question;
-    this.activity = this.props.activity;
-    this.slide = this.props.slide;
+    this.question = this.props.question
+    this.activity = this.props.activity
+    this.slide = this.props.slide
 
-    this.canvasWidth = 900;
-    this.canvasHeight = 680;
-    this.minX = 20;
-    this.maxX = 800;
-    this.minY = 20;
-    this.maxY = 580;
-    this.multiplier = 30;
+    this.canvasWidth = 900
+    this.canvasHeight = 680
+    this.minX = 20
+    this.maxX = 800
+    this.minY = 20
+    this.maxY = 580
+    this.multiplier = 30
 
-    this.state = this.props.mapState;
+    this.state = this.props.mapState
   }
 
   componentDidMount = async () => {
-    await this.loadImage();
+    await this.loadImage()
 
     document.addEventListener('keypress', this.keyboardPress)
   };
@@ -57,26 +57,26 @@ class Game extends Component {
   componentDidUpdate = (prevProps) => {
     if (prevProps.map !== this.props.map) {
       // if we have a new map. Let's update our image and reset the board.
-      const shooter = document.getElementById('shooter-1');
-      const shooterTwin = document.getElementById('shooter-1-twin');
-      const shooter2 = document.getElementById('shooter-2');
-      const shooter2Twin = document.getElementById('shooter-2-twin');
+      const shooter = document.getElementById('shooter-1')
+      const shooterTwin = document.getElementById('shooter-1-twin')
+      const shooter2 = document.getElementById('shooter-2')
+      const shooter2Twin = document.getElementById('shooter-2-twin')
 
-      this.loadImage();
+      this.loadImage()
 
       // Resets all our shooters.
-      shooter2.parentNode.removeChild(shooter);
-      shooter2Twin.parentNode.removeChild(shooterTwin);
+      shooter2.parentNode.removeChild(shooter)
+      shooter2Twin.parentNode.removeChild(shooterTwin)
 
-      shooter2.style.width = 0;
-      shooter2Twin.style.width = 0;
+      shooter2.style.width = 0
+      shooter2Twin.style.width = 0
 
-      shooter2.setAttribute('class', 'shooter');
-      shooter2Twin.setAttribute('class', 'shooter');
-      shooter2.setAttribute('id', 'shooter-1');
-      shooter2Twin.setAttribute('id', 'shooter-1-twin');
+      shooter2.setAttribute('class', 'shooter')
+      shooter2Twin.setAttribute('class', 'shooter')
+      shooter2.setAttribute('id', 'shooter-1')
+      shooter2Twin.setAttribute('id', 'shooter-1-twin')
 
-      this.setState(this.props.mapState);
+      this.setState(this.props.mapState)
     }
   };
 
@@ -84,23 +84,23 @@ class Game extends Component {
    * Loads the outline image and draws it on the canvas.
    */
   loadImage = () => {
-    const image = new Image();
-    const context = this.canvas.getContext('2d');
+    const image = new Image()
+    const context = this.canvas.getContext('2d')
 
-    context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    context.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
 
     image.onload = () => {
-      context.drawImage(image, 0, 0, this.canvasWidth, this.canvasHeight);
-    };
+      context.drawImage(image, 0, 0, this.canvasWidth, this.canvasHeight)
+    }
 
     image.src =
       this.props.map === 1
         ? canvasImg1
         : this.props.map === 2
-        ? canvasImg2
-        : canvasImg3;
-    image.width = this.canvasWidth;
-    image.height = this.canvasHeight;
+          ? canvasImg2
+          : canvasImg3
+    image.width = this.canvasWidth
+    image.height = this.canvasHeight
   };
 
   /**
@@ -120,31 +120,31 @@ class Game extends Component {
    * Get the Boat element's correct rotation.
    */
   getCorrectRotation = (degrees) => {
-    let degOffset = degrees - 360 * parseInt(degrees / 360, 10);
-    let newDegrees = degrees;
+    let degOffset = degrees - 360 * parseInt(degrees / 360, 10)
+    let newDegrees = degrees
 
     if (degOffset > 0) {
       if (degOffset > 180) {
-        newDegrees = degOffset - 180 - 180;
+        newDegrees = degOffset - 180 - 180
       } else {
-        newDegrees = degOffset;
+        newDegrees = degOffset
       }
     } else {
       if (degOffset < -180) {
-        newDegrees = degOffset + 180 + 180;
+        newDegrees = degOffset + 180 + 180
       } else {
-        newDegrees = degOffset;
+        newDegrees = degOffset
       }
     }
 
-    return newDegrees;
+    return newDegrees
   };
 
   /**
    * Get the degrees the boat is rotated.
    */
   getDegrees = () => {
-    let degrees = 0;
+    let degrees = 0
 
     try {
       degrees = parseInt(
@@ -153,12 +153,12 @@ class Game extends Component {
           this.state.boat.transform.indexOf('deg')
         ),
         10
-      );
+      )
     } catch {
-      degrees = 0;
+      degrees = 0
     }
 
-    return degrees;
+    return degrees
   };
 
   /**
@@ -167,24 +167,24 @@ class Game extends Component {
    * @return {string}         direction abbreviation (i.e. n = North)
    */
   getDirection = (degrees) => {
-    degrees = this.getCorrectRotation(degrees);
+    degrees = this.getCorrectRotation(degrees)
 
     if (degrees === 0) {
-      return 'w';
+      return 'w'
     } else if (degrees > 0 && degrees < 90) {
-      return 'nw';
+      return 'nw'
     } else if (degrees === 90) {
-      return 'n';
+      return 'n'
     } else if (degrees > 90 && degrees < 180) {
-      return 'ne';
+      return 'ne'
     } else if (degrees === 180) {
-      return 'e';
+      return 'e'
     } else if (degrees > 0 - 180 && degrees < 0 - 90) {
-      return 'se';
+      return 'se'
     } else if (degrees === -90) {
-      return 's';
+      return 's'
     } else if (degrees > 0 - 90 && degrees < 0) {
-      return 'sw';
+      return 'sw'
     }
   };
 
@@ -195,13 +195,13 @@ class Game extends Component {
    * @return {string}   calculated (numerical) hexcode for the coordinates given on the canvas element.
    */
   getPixel = (x, y) => {
-    const canvas = document.getElementById('map-layer');
-    const context = canvas.getContext('2d');
-    const imageData = context.getImageData(x - 1, y - 1, 1, 1);
-    const d = imageData.data;
-    const rgb = ((d[0] << 16) | (d[1] << 8) | d[2]).toString(16);
+    const canvas = document.getElementById('map-layer')
+    const context = canvas.getContext('2d')
+    const imageData = context.getImageData(x - 1, y - 1, 1, 1)
+    const d = imageData.data
+    const rgb = ((d[0] << 16) | (d[1] << 8) | d[2]).toString(16)
 
-    return ('000000' + rgb).slice(-6);
+    return ('000000' + rgb).slice(-6)
   };
 
   /**
@@ -210,36 +210,36 @@ class Game extends Component {
    * @return {event}     state change
    */
   handleKeyPress = (key) => {
-    const boatStyle = document.getElementById('boat').getAttribute('style');
-    const newState = CloneDeep(this.state);
+    const boatStyle = document.getElementById('boat').getAttribute('style')
+    const newState = CloneDeep(this.state)
     let degrees = parseInt(
       boatStyle.substring(boatStyle.indexOf('(') + 1, boatStyle.indexOf('deg')),
       10
-    );
+    )
 
     if (this.message.getAttribute('class').indexOf('active') < 0) {
       switch (key) {
         case 'left':
-          degrees = degrees - this.multiplier / 4;
-          break;
+          degrees = degrees - this.multiplier / 4
+          break
         case 'right':
-          degrees = degrees + this.multiplier / 4;
-          break;
+          degrees = degrees + this.multiplier / 4
+          break
         default:
-          break;
+          break
       }
 
-      document.getElementById('boat').setAttribute('class', 'moving');
+      document.getElementById('boat').setAttribute('class', 'moving')
 
       setTimeout(() => {
         if (document.getElementById('boat')) {
-          document.getElementById('boat').removeAttribute('class');
+          document.getElementById('boat').removeAttribute('class')
         }
-      }, 2000);
+      }, 2000)
 
-      newState.boat.transform = 'rotate(' + degrees + 'deg)';
+      newState.boat.transform = 'rotate(' + degrees + 'deg)'
 
-      this.setState(newState);
+      this.setState(newState)
     }
   };
 
@@ -253,7 +253,7 @@ class Game extends Component {
    * @see https://github.com/dogfessional/react-swipeable#event-props
    */
   handleRotate = (rotate) => {
-    this.handleKeyPress(rotate);
+    this.handleKeyPress(rotate)
   };
 
   /**
@@ -264,12 +264,12 @@ class Game extends Component {
    */
   isLandCollision = (x, y) => {
     if (this.state.stage === 2) {
-      x = parseInt(x, 10);
-      y = parseInt(y, 10);
+      x = parseInt(x, 10)
+      y = parseInt(y, 10)
     }
-    const color = this.getPixel(x, y);
+    const color = this.getPixel(x, y)
 
-    return color !== 'ffffff';
+    return color !== 'ffffff'
   };
 
   /**
@@ -278,32 +278,32 @@ class Game extends Component {
    * @return {event}           state update
    */
   moveBoat = (direction) => {
-    const boat = document.getElementById('boat').getBoundingClientRect();
-    let newState = CloneDeep(this.state);
+    const boat = document.getElementById('boat').getBoundingClientRect()
+    let newState = CloneDeep(this.state)
 
-    document.getElementById('boat').setAttribute('class', 'moving');
+    document.getElementById('boat').setAttribute('class', 'moving')
 
     setTimeout(() => {
       if (document.getElementById('boat')) {
-        document.getElementById('boat').removeAttribute('class');
+        document.getElementById('boat').removeAttribute('class')
       }
-    }, 2000);
+    }, 2000)
 
-    let top = newState.boat.top;
-    let left = newState.boat.left;
+    let top = newState.boat.top
+    let left = newState.boat.left
 
-    let adjacent;
-    let angle;
-    let degrees;
-    let opposite;
-    let radians;
-    let forward;
-    let backward;
-    let multiplier = this.multiplier;
+    let adjacent
+    let angle
+    let degrees
+    let opposite
+    let radians
+    let forward
+    let backward
+    let multiplier = this.multiplier
 
     // Adjusts the speed the boat moves in the direction.
     if (this.state.stage === 1) {
-      multiplier = this.multiplier + 10;
+      multiplier = this.multiplier + 10
     }
 
     let coords = {
@@ -323,12 +323,12 @@ class Game extends Component {
         x: left - multiplier,
         y: top + boat.height / 4
       }
-    };
+    }
 
     if (this.state.stage === 2 && (direction === 'n' || direction === 's')) {
       let shooterStyle = document
         .getElementById('shooter-1')
-        .getAttribute('style');
+        .getAttribute('style')
 
       degrees = parseInt(
         shooterStyle.substring(
@@ -336,114 +336,114 @@ class Game extends Component {
           shooterStyle.indexOf('deg')
         ),
         10
-      );
-      forward = this.getDirection(degrees);
+      )
+      forward = this.getDirection(degrees)
       backward =
         degrees >= 0
           ? this.getDirection(0 - 180 + degrees)
-          : this.getDirection(180 + degrees);
+          : this.getDirection(180 + degrees)
 
       // convert degrees to radians.
       angle =
-        Math.abs(degrees) >= 90 ? 180 - Math.abs(degrees) : Math.abs(degrees);
-      radians = Math.abs(angle) * (Math.PI / 180);
+        Math.abs(degrees) >= 90 ? 180 - Math.abs(degrees) : Math.abs(degrees)
+      radians = Math.abs(angle) * (Math.PI / 180)
 
       // @see http://mathforum.org/sarah/hamilton/ham.1side.1angle.html
       // multiplier = hypotenuse.
       // opposite side.
-      opposite = Math.sin(radians) * multiplier;
+      opposite = Math.sin(radians) * multiplier
       // adjacent side.
-      adjacent = Math.cos(radians) * multiplier;
+      adjacent = Math.cos(radians) * multiplier
 
       if (direction === 'n') {
-        direction = this.getDirection(degrees);
+        direction = this.getDirection(degrees)
       } else {
         if (degrees >= 0) {
-          direction = this.getDirection(0 - 180 + degrees);
+          direction = this.getDirection(0 - 180 + degrees)
         } else {
-          direction = this.getDirection(180 + degrees);
+          direction = this.getDirection(180 + degrees)
         }
       }
     }
 
     switch (direction) {
       case 'n':
-        top = top - multiplier;
-        break;
+        top = top - multiplier
+        break
       case 's':
-        top = top + multiplier;
-        break;
+        top = top + multiplier
+        break
       case 'w':
-        left = left - multiplier;
-        break;
+        left = left - multiplier
+        break
       case 'e':
-        left = left + multiplier;
-        break;
+        left = left + multiplier
+        break
       case 'ne':
-        top = top - opposite;
-        left = left + adjacent;
-        break;
+        top = top - opposite
+        left = left + adjacent
+        break
       case 'nw':
-        top = top - opposite;
-        left = left - adjacent;
-        break;
+        top = top - opposite
+        left = left - adjacent
+        break
       case 'se':
-        top = top + opposite;
-        left = left + adjacent;
-        break;
+        top = top + opposite
+        left = left + adjacent
+        break
       case 'sw':
-        top = top + opposite;
-        left = left - adjacent;
-        break;
+        top = top + opposite
+        left = left - adjacent
+        break
       default:
-        break;
+        break
     }
 
     if (this.state.stage === 2) {
       coords.ne = {
         x: left + adjacent,
         y: top - opposite
-      };
+      }
 
       coords.nw = {
         x: left - adjacent,
         y: top - opposite
-      };
+      }
 
       coords.se = {
         x: left + adjacent,
         y: top + opposite
-      };
+      }
 
       coords.sw = {
         x: left - adjacent,
         y: top + opposite
-      };
+      }
     }
 
-    newState.boat.top = top;
-    newState.boat.left = left;
+    newState.boat.top = top
+    newState.boat.left = left
 
     if (this.state.stage === 1) {
       newState.disabled.n =
-        top <= this.minY || this.isLandCollision(coords.n.x, coords.n.y, 'n');
+        top <= this.minY || this.isLandCollision(coords.n.x, coords.n.y, 'n')
       newState.disabled.e =
-        left >= this.maxX || this.isLandCollision(coords.e.x, coords.e.y, 'e');
+        left >= this.maxX || this.isLandCollision(coords.e.x, coords.e.y, 'e')
       newState.disabled.s =
-        top >= this.maxY || this.isLandCollision(coords.s.x, coords.s.y, 's');
+        top >= this.maxY || this.isLandCollision(coords.s.x, coords.s.y, 's')
       newState.disabled.w =
-        left <= this.minX || this.isLandCollision(coords.w.x, coords.w.y, 'w');
+        left <= this.minX || this.isLandCollision(coords.w.x, coords.w.y, 'w')
     } else {
       newState.disabled.n = this.isLandCollision(
         coords[forward].x,
         coords[forward].y
-      );
-      newState.disabled.e = true;
-      newState.disabled.w = true;
+      )
+      newState.disabled.e = true
+      newState.disabled.w = true
       newState.disabled.s = this.isLandCollision(
         coords[backward].x,
         coords[backward].y
-      );
+      )
     }
 
     if (
@@ -452,10 +452,10 @@ class Game extends Component {
       newState.disabled.w === true &&
       newState.disabled.e === true
     ) {
-      newState = this.props.mapState;
+      newState = this.props.mapState
     }
 
-    this.setState(newState);
+    this.setState(newState)
   };
 
   /**
@@ -464,33 +464,33 @@ class Game extends Component {
    * @return {event}           state update
    */
   onClickDPad = (direction) => {
-    const boat = document.getElementById('boat');
-    const shooter = document.getElementById('shooter-' + this.state.stage);
+    const boat = document.getElementById('boat')
+    const shooter = document.getElementById('shooter-' + this.state.stage)
     const shooterTwin = document.getElementById(
       'shooter-' + this.state.stage + '-twin'
-    );
+    )
 
     if (document.getElementById('dpad')) {
       document
         .getElementById('dpad')
-        .setAttribute('class', 'stage-' + this.state.stage);
+        .setAttribute('class', 'stage-' + this.state.stage)
 
       if (this.message.getAttribute('class').indexOf('active') < 0) {
         switch (direction) {
           case 'fire':
           case 'fire-auto':
-            shooter.style.top = parseInt(boat.style.top, 10) + 46 + 'px';
-            shooter.style.left = parseInt(boat.style.left, 10) + 55 + 'px';
-            shooterTwin.style.top = parseInt(boat.style.top, 10) + 46 + 'px';
-            shooterTwin.style.left = parseInt(boat.style.left, 10) + 58 + 'px';
-            shooter.setAttribute('class', 'shooter fire');
+            shooter.style.top = parseInt(boat.style.top, 10) + 46 + 'px'
+            shooter.style.left = parseInt(boat.style.left, 10) + 55 + 'px'
+            shooterTwin.style.top = parseInt(boat.style.top, 10) + 46 + 'px'
+            shooterTwin.style.left = parseInt(boat.style.left, 10) + 58 + 'px'
+            shooter.setAttribute('class', 'shooter fire')
 
-            this.audioFire.audioEl.play();
-            this.onFire(this.state.stage, direction);
-            break;
+            this.audioFire.audioEl.play()
+            this.onFire(this.state.stage, direction)
+            break
           default:
-            this.moveBoat(direction);
-            break;
+            this.moveBoat(direction)
+            break
         }
       }
     }
@@ -502,47 +502,47 @@ class Game extends Component {
    * @return {event}       state update
    */
   onFire = (stage, fire) => {
-    const newState = CloneDeep(this.state);
-    const layer = document.getElementById('boat-layer');
+    const newState = CloneDeep(this.state)
+    const layer = document.getElementById('boat-layer')
     const layerOffset = document
       .getElementById('map-layer')
-      .getBoundingClientRect();
-    const shooter = document.getElementById('shooter-' + this.state.stage);
+      .getBoundingClientRect()
+    const shooter = document.getElementById('shooter-' + this.state.stage)
     const shooterTwin = document.getElementById(
       'shooter-' + this.state.stage + '-twin'
-    );
-    const targets = document.getElementsByClassName('target-stage-' + stage);
-    const message = this.message.getElementsByTagName('p');
+    )
+    const targets = document.getElementsByClassName('target-stage-' + stage)
+    const message = this.message.getElementsByTagName('p')
 
     // Because we want smoother rotations, we have to calculate where the boat is pointing after multiple rotations of the boat.
     let degrees = parseInt(
       newState.boat.transform.replace('rotate(', '').replace('deg)', ''),
       10
-    );
+    )
 
-    const direction = this.getDirection(degrees);
+    const direction = this.getDirection(degrees)
 
     if (
       this.message.getAttribute('class').indexOf('active') >= 0 ||
       layer.getAttribute('class')
     ) {
-      return false;
+      return false
     }
 
-    layer.setAttribute('class', 'shooting');
-    message[0].innerText = null;
+    layer.setAttribute('class', 'shooting')
+    message[0].innerText = null
 
-    let w = 0;
-    let hits = [];
-    let fireRange = {};
+    let w = 0
+    let hits = []
+    let fireRange = {}
 
     let firing = setInterval(() => {
-      w = w + 6;
-      shooter.style.width = w + 'px';
-      shooterTwin.style.width = w + 'px';
+      w = w + 6
+      shooter.style.width = w + 'px'
+      shooterTwin.style.width = w + 'px'
 
-      let shooterBox = shooterTwin.getBoundingClientRect();
-      let shooterTwinBox = shooter.getBoundingClientRect();
+      let shooterBox = shooterTwin.getBoundingClientRect()
+      let shooterTwinBox = shooter.getBoundingClientRect()
 
       switch (direction) {
         case 'w':
@@ -553,8 +553,8 @@ class Game extends Component {
             x1: shooterBox.left,
             y2: shooterTwinBox.bottom - layerOffset.top,
             x2: shooterTwinBox.right
-          };
-          break;
+          }
+          break
         case 'e':
         case 'se':
         case 's':
@@ -563,8 +563,8 @@ class Game extends Component {
             x1: shooterBox.right,
             y2: shooterTwinBox.top - layerOffset.top,
             x2: shooterTwinBox.left
-          };
-          break;
+          }
+          break
         case 'ne':
         case 'sw':
           fireRange = {
@@ -572,20 +572,20 @@ class Game extends Component {
             x1: shooterBox.right,
             y2: shooterTwinBox.bottom - layerOffset.top,
             x2: shooterTwinBox.left
-          };
-          break;
+          }
+          break
         default:
-          break;
+          break
       }
 
       for (let i = 0; i < targets.length; i++) {
-        let targetBox = targets[i].getBoundingClientRect();
+        let targetBox = targets[i].getBoundingClientRect()
         let targetRange = {
           y: targetBox.top - layerOffset.top + targetBox.height / 2,
           x: targetBox.left + targetBox.width / 2
-        };
+        }
 
-        let offset = targetBox.width;
+        let offset = targetBox.width
         let check =
           (targetRange.y >= fireRange.y1 - offset &&
             targetRange.y <= fireRange.y1 + offset &&
@@ -594,10 +594,10 @@ class Game extends Component {
           (targetRange.y >= fireRange.y2 - offset &&
             targetRange.y <= fireRange.y2 + offset &&
             (targetRange.x >= fireRange.x2 - offset &&
-              targetRange.x <= fireRange.x2 + offset));
+              targetRange.x <= fireRange.x2 + offset))
 
         if (check === true && hits.indexOf(targets[i]) === -1) {
-          hits.push(targets[i]);
+          hits.push(targets[i])
         }
       }
 
@@ -609,12 +609,12 @@ class Game extends Component {
         (fireRange.x2 < 0 && fireRange.x1 > layerOffset.right) ||
         w > 1333
       ) {
-        clearInterval(firing);
+        clearInterval(firing)
 
         if (hits.length === targets.length && hits.length !== 0) {
           if (stage === 1) {
             message[0].innerText =
-              'You are in sight of the first location. Now line up with the other two landmarks!';
+              'You are in sight of the first location. Now line up with the other two landmarks!'
             if (this.message) {
               this.message.setAttribute(
                 'class',
@@ -623,23 +623,23 @@ class Game extends Component {
                   ' ' +
                   fire +
                   ' fadeIn animated'
-              );
+              )
             }
 
-            newState.stage = 2;
-            newState.disabled.n = false;
-            newState.disabled.e = true;
-            newState.disabled.w = true;
-            newState.disabled.s = false;
+            newState.stage = 2
+            newState.disabled.n = false
+            newState.disabled.e = true
+            newState.disabled.w = true
+            newState.disabled.s = false
 
             let clone = layer
               .getElementsByClassName('shooter')[0]
-              .cloneNode(true);
+              .cloneNode(true)
             let clone2 = layer
               .getElementsByClassName('shooter')[1]
-              .cloneNode(true);
-            shooter.setAttribute('id', 'shooter-2');
-            shooter.setAttribute('class', 'shooter');
+              .cloneNode(true)
+            shooter.setAttribute('id', 'shooter-2')
+            shooter.setAttribute('class', 'shooter')
             shooter.setAttribute(
               'style',
               'width: 0px; transform: rotate(' +
@@ -649,9 +649,9 @@ class Game extends Component {
                 'px; right:' +
                 this.state.boat.right +
                 'px'
-            );
-            shooterTwin.setAttribute('id', 'shooter-2-twin');
-            shooterTwin.setAttribute('class', 'shooter');
+            )
+            shooterTwin.setAttribute('id', 'shooter-2-twin')
+            shooterTwin.setAttribute('class', 'shooter')
             shooterTwin.setAttribute(
               'style',
               'width: 0px; transform: rotate(' +
@@ -661,13 +661,13 @@ class Game extends Component {
                 'px; right:' +
                 this.state.boat.right +
                 'px'
-            );
+            )
 
-            layer.appendChild(clone);
-            layer.appendChild(clone2);
+            layer.appendChild(clone)
+            layer.appendChild(clone2)
           } else {
             message[0].innerText =
-              'You found it! Drop your line, it’s time to fish.';
+              'You found it! Drop your line, it’s time to fish.'
 
             if (this.message && document.getElementById('boat')) {
               this.message.setAttribute(
@@ -677,22 +677,22 @@ class Game extends Component {
                   'a map-' +
                   this.props.map +
                   ' fadeIn animated'
-              );
+              )
               document
                 .getElementById('boat')
-                .setAttribute('class', 'boat found');
+                .setAttribute('class', 'boat found')
 
               setTimeout(() => {
                 if (document.getElementById('boat')) {
                   document
                     .getElementById('boat')
-                    .setAttribute('class', 'boat found');
+                    .setAttribute('class', 'boat found')
                 }
 
                 message[0].innerText =
                   this.props.map <= 2
                     ? 'Would you like to try the next map?'
-                    : "You've found all the éet. Thanks for playing!";
+                    : "You've found all the éet. Thanks for playing!"
                 if (this.message) {
                   this.message.setAttribute(
                     'class',
@@ -701,105 +701,104 @@ class Game extends Component {
                       ' map-' +
                       this.props.map +
                       ' fadeIn animated'
-                  );
+                  )
                 }
-              }, 4000);
+              }, 4000)
             }
           }
 
-          this.setState(newState);
-          layer.removeAttribute('class');
+          this.setState(newState)
+          layer.removeAttribute('class')
         } else {
-          message[0].innerText = 'Oops! You missed. Keep trying.';
+          message[0].innerText = 'Oops! You missed. Keep trying.'
 
           if (this.message && shooter && shooterTwin) {
             this.message.setAttribute(
               'class',
               'message active fail stage-' + stage + ' fadeIn animated'
-            );
+            )
 
-            shooter.style.width = 0;
-            shooterTwin.style.width = 0;
-            shooter.setAttribute('class', 'shooter');
-            shooterTwin.setAttribute('class', 'shooter');
+            shooter.style.width = 0
+            shooterTwin.style.width = 0
+            shooter.setAttribute('class', 'shooter')
+            shooterTwin.setAttribute('class', 'shooter')
             for (let i = 0; i < targets.length; i++) {
-              targets[i].setAttribute('style', '');
+              targets[i].setAttribute('style', '')
             }
           }
 
-          layer.removeAttribute('class');
+          layer.removeAttribute('class')
         }
       }
-    }, 0.001);
+    }, 0.001)
   };
 
   /**
-   * [doItForMe description]
-   * @return {[type]} [description]
+   * If user misses, offer a "do it for me" option to auto finish the game.
    */
   doItForMe = () => {
-    let top;
-    let left;
-    let transform;
-    let top2;
-    let left2;
-    let transform2;
+    let top
+    let left
+    let transform
+    let top2
+    let left2
+    let transform2
 
     switch (this.props.map) {
       case 1:
-        top = 420;
-        left = 650;
-        transform = 'rotate(101deg)';
-        break;
+        top = 420
+        left = 650
+        transform = 'rotate(101deg)'
+        break
       case 2:
-        top = 340;
-        left = 460;
-        transform = 'rotate(133deg)';
-        break;
+        top = 340
+        left = 460
+        transform = 'rotate(133deg)'
+        break
       case 3:
-        top = 320;
-        left = 668;
-        transform = 'rotate(121deg)';
-        break;
+        top = 320
+        left = 668
+        transform = 'rotate(121deg)'
+        break
       default:
-        break;
+        break
     }
 
     if (top && left && transform) {
-      this.onClickMessage();
+      this.onClickMessage()
       this.setState({
         boat: {
           top: top,
           left: left,
           transform: transform
         }
-      });
+      })
 
       setTimeout(() => {
-        this.onClickDPad('fire-auto');
-      }, 1500);
+        this.onClickDPad('fire-auto')
+      }, 1500)
 
       setTimeout(() => {
-        this.onClickMessage();
+        this.onClickMessage()
 
         switch (this.props.map) {
           case 1:
-            top2 = 343;
-            left2 = 662;
-            transform2 = 'rotate(20.5deg)';
-            break;
+            top2 = 343
+            left2 = 662
+            transform2 = 'rotate(20.5deg)'
+            break
           case 2:
-            top2 = 340;
-            left2 = 460;
-            transform2 = 'rotate(223.5deg)';
-            break;
+            top2 = 340
+            left2 = 460
+            transform2 = 'rotate(223.5deg)'
+            break
           case 3:
-            top2 = 423;
-            left2 = 606;
-            transform2 = 'rotate(33.5deg)';
-            break;
+            top2 = 423
+            left2 = 606
+            transform2 = 'rotate(33.5deg)'
+            break
           default:
-            break;
+            break
         }
 
         this.setState({
@@ -808,33 +807,36 @@ class Game extends Component {
             left: left2,
             transform: transform2
           }
-        });
-      }, 3800);
+        })
+      }, 3800)
 
       setTimeout(() => {
-        this.onClickDPad('fire-auto');
-      }, 5300);
+        this.onClickDPad('fire-auto')
+      }, 5300)
     }
   };
 
+  /**
+   * Reaction to clicking the modal messages
+   */
   onClickMessage = () => {
     if (this.message) {
-      const message = this.message.getElementsByTagName('p');
-      this.message.setAttribute('class', 'message active fadeOut animated');
+      const message = this.message.getElementsByTagName('p')
+      this.message.setAttribute('class', 'message active fadeOut animated')
       setTimeout(() => {
         if (this.message) {
-          message[0].innerText = null;
-          this.message.setAttribute('class', 'message');
+          message[0].innerText = null
+          this.message.setAttribute('class', 'message')
         }
-      }, 750);
+      }, 750)
     }
   };
 
   render = () => {
-    let degrees = this.getDegrees();
+    let degrees = this.getDegrees()
 
     return (
-      <div className="wrapper-game">
+      <div className='wrapper-game'>
         <DPad
           handleKeyPress={this.handleKeyPress}
           handleRotate={this.handleRotate}
@@ -848,19 +850,19 @@ class Game extends Component {
 
         <canvas
           ref={(e) => {
-            this.canvas = e;
+            this.canvas = e
           }}
-          id="map-layer"
+          id='map-layer'
           width={this.canvasWidth}
           height={this.canvasHeight}
         />
         <div
-          id="map"
+          id='map'
           className={'activity-content animated map-' + this.props.map}>
-          <Target name="clue1" stage="1" current={this.state.stage} />
-          <Target name="clue2" stage="1" current={this.state.stage} />
-          <Target name="clue3" stage="2" current={this.state.stage} />
-          <Target name="clue4" stage="2" current={this.state.stage} />
+          <Target name='clue1' stage='1' current={this.state.stage} />
+          <Target name='clue2' stage='1' current={this.state.stage} />
+          <Target name='clue3' stage='2' current={this.state.stage} />
+          <Target name='clue4' stage='2' current={this.state.stage} />
 
           <Boat
             styles={this.state.boat}
@@ -868,29 +870,29 @@ class Game extends Component {
             degrees={this.getCorrectRotation(degrees)}
           />
 
-          <div id="air-layer" />
+          <div id='air-layer' />
 
           <div
             ref={(m) => {
-              this.message = m;
+              this.message = m
             }}
-            className="message">
+            className='message'>
             <p />
             <Button
-              label="Ok"
+              label='Ok'
               onClick={() => {
-                this.onClickMessage();
+                this.onClickMessage()
               }}
             />
-            <Button label="Do It For Me" onClick={() => this.doItForMe()} />
+            <Button label='Do It For Me' onClick={() => this.doItForMe()} />
             <Button
-              label="Next Map"
+              label='Next Map'
               onClick={() => {
-                this.props.updateMap(this.props.map + 1);
+                this.props.updateMap(this.props.map + 1)
               }}
             />
             <Button
-              label="Restart"
+              label='Restart'
               onClick={() => this.props.updateMap(1)}
             />
           </div>
@@ -898,24 +900,24 @@ class Game extends Component {
 
         <AudioPlayer
           src={process.env.PUBLIC_URL + '/assets/audio/lineup-water.mp3'}
-          autoPlay={true}
+          autoPlay
           controls={false}
-          loop={true}
+          loop
           volume={0.3}
         />
 
         <AudioPlayer
           ref={(e) => {
-            this.audioFire = e;
+            this.audioFire = e
           }}
           src={process.env.PUBLIC_URL + '/assets/audio/lineup-fire.mp3'}
           autoPlay={false}
           controls={false}
-          controlsList="nodownload"
+          controlsList='nodownload'
         />
       </div>
-    );
+    )
   };
 }
 
-export default Game;
+export default Game
