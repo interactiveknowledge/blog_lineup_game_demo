@@ -38,26 +38,16 @@ class Lineup extends Component {
   state = {
     map: 1,
     mapState: data.maps[0]
-  };
+  }
 
   componentDidMount = () => {
-    this.updateMap(1)
-  };
-
-  /**
-   * Method that shows the help modal.
-   */
-  getModal = () => {
-    const modal = document.getElementById('modal')
-
-    modal.setAttribute('style', 'display:block;')
-    modal.setAttribute('class', 'fadeIn animated modal')
-  };
+    this._updateMap(1)
+  }
 
   /**
    * Method that hides the help modal.
    */
-  closeModal = () => {
+  _closeModal = () => {
     const modal = document.getElementById('modal')
 
     modal.setAttribute('class', 'fadeOut animated modal')
@@ -66,36 +56,12 @@ class Lineup extends Component {
         modal.setAttribute('style', 'display:none;')
       }
     }, 1000)
-  };
+  }
 
   /**
-   * Updates the map state.
-   * @param  {integer} map the number of the map that the user is currently on.
+   * Loads the sky and randomly pladces birds and clouds.
    */
-  updateMap = map => {
-    this.setState({
-      started: true,
-      map: map,
-      mapState: data.maps[map - 1]
-    })
-
-    const message = document.getElementsByClassName('message')
-
-    if (message.length > 0) {
-      message[0].setAttribute('class', 'message active fadeOut animated')
-      setTimeout(() => {
-        if (message) {
-          message[0].setAttribute('class', 'message')
-        }
-      }, 750)
-    }
-
-    document.getElementById('boat').setAttribute('class', '')
-
-    this.loadSky()
-  };
-
-  loadSky = () => {
+  _loadSky = () => {
     const air = document.getElementById('air-layer')
     const clouds = Math.floor(Math.random() * 3) + 1
     const birds = Math.floor(Math.random() * 2) + 1
@@ -203,11 +169,48 @@ class Lineup extends Component {
     } else {
       setTimeout(() => {
         if (document.getElementById('air-layer')) {
-          this.loadSky()
+          this._loadSky()
         }
       }, 500)
     }
-  };
+  }
+
+  /**
+   * Method that shows the help modal.
+   */
+  _getModal = () => {
+    const modal = document.getElementById('modal')
+
+    modal.setAttribute('style', 'display:block;')
+    modal.setAttribute('class', 'fadeIn animated modal')
+  }
+
+  /**
+   * Updates the map state. (Sets the map number to show)
+   * @param  {integer} map the number of the map that the user is currently on.
+   */
+  _updateMap = map => {
+    this.setState({
+      started: true,
+      map: map,
+      mapState: data.maps[map - 1]
+    })
+
+    const message = document.getElementsByClassName('message')
+
+    if (message.length > 0) {
+      message[0].setAttribute('class', 'message active fadeOut animated')
+      setTimeout(() => {
+        if (message) {
+          message[0].setAttribute('class', 'message')
+        }
+      }, 750)
+    }
+
+    document.getElementById('boat').setAttribute('class', '')
+
+    this._loadSky()
+  }
 
   render () {
     return (
@@ -220,19 +223,19 @@ class Lineup extends Component {
         >
           <Header
             title='Find a Line-Up'
-            infoClick={() => this.getModal(0, false)}
+            infoClick={() => this._getModal(0, false)}
           />
           {this.state.mapState && (
             <Game
               map={this.state.map}
-              updateMap={this.updateMap}
+              updateMap={this._updateMap}
               mapState={this.state.mapState}
             />
           )}
 
           <Modal
             close={() => {
-              this.closeModal()
+              this._closeModal()
             }}
           />
         </div>

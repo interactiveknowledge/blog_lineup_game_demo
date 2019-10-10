@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 /**
  * Target component is used in GameLocation.js as the "targets" where the Boat needs to line up with.
@@ -21,18 +22,18 @@ class Target extends Component {
     return (
       <div
         id={this.props.name}
-        className={
-          'target target-stage-' +
-          this.props.stage +
-          ' target-' +
-          this.props.name
-        }
-        style={styles}
-      >
+        className={`target target-stage-${this.props.stage} target-${this.props.name}`}
+        style={styles}>
         X
       </div>
     )
   }
+}
+
+Target.propTypes = {
+  current: PropTypes.number,
+  name: PropTypes.string,
+  stage: PropTypes.number
 }
 
 export default Target

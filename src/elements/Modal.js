@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import debounce from 'lodash.debounce'
+import PropTypes from 'prop-types'
 
 import Button from './Button'
 
@@ -12,40 +13,28 @@ class Modal extends Component {
   constructor (props) {
     super(props)
 
-    this.debounceAction = debounce(this.handleClick, 500)
-    this.handleClick = this.handleClick.bind(this)
+    this.debounceAction = debounce(this._handleClick, 500)
   }
 
   /**
    * Handles a debounced click action.
    * @param {string} type string that determines which method to call on user click.
    */
-  handleClick = type => {
+  _handleClick = type => {
     if (type === 'close') {
       this.props.close()
     }
-  };
+  }
 
   render () {
     return (
-      <div
-        id={this.props.id ? this.props.id : 'modal'}
-        className={this.props.classes ? 'modal ' + this.props.classes : 'modal'}
-      >
-        <div
-          id={
-            this.props.id ? this.props.id + '-foreground' : 'modal-foreground'
-          }
-          className='modal-foreground'
-        >
+      <div id='modal' className='modal'>
+        <div id='modal-foreground' className='modal-foreground'>
           <div className='close' onClick={() => this.debounceAction('close')}>
             Close
           </div>
 
-          <div
-            id={this.props.id ? this.props.id + '-inner' : 'modal-inner'}
-            className='modal-inner'
-          >
+          <div id='modal-inner' className='modal-inner'>
             <h1>How To Play This Game</h1>
             <div className='text'>
               <p>
@@ -70,6 +59,10 @@ class Modal extends Component {
       </div>
     )
   }
+}
+
+Modal.propTypes = {
+  close: PropTypes.func
 }
 
 export default Modal

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ArrowKeysReact from 'arrow-keys-react'
 import debounce from 'lodash.debounce'
+import PropTypes from 'prop-types'
 
 /**
  * Dpad compontent used in GameLocation.js to move Boat component.
@@ -16,7 +17,7 @@ class DPad extends Component {
   constructor (props) {
     super(props)
 
-    this.debounceAction = debounce(this.handleAction, 50)
+    this.debounceAction = debounce(this._handleAction, 50)
 
     ArrowKeysReact.config({
       left: () => {
@@ -53,11 +54,12 @@ class DPad extends Component {
    * @param {enum} type string. expects either "click" or "rotate" or "keypress"
    * @param {string} direction string that determines which button the user has clicked.
    */
-  handleAction (type, direction) {
+  _handleAction (type, direction) {
     if (type === 'click') {
       this.props.onClick(direction)
       return
     }
+
     if (type === 'keypress') {
       this.props.handleKeyPress(direction)
       return
@@ -69,23 +71,18 @@ class DPad extends Component {
   }
 
   render () {
+    const { disabled, map, ready, stage } = this.props
+
     return (
       <div id='controls' {...ArrowKeysReact.events}>
         <div className='label'>Move</div>
-        <div
-          id='dpad'
-          className={
-            'stage-' +
-            this.props.stage +
-            (this.props.map === 1 && this.props.stage === 1 ? ' start' : ' ')
-          }
-        >
+        <div id='dpad' className={`stage-${stage} ${(map === 1 && stage === 1 ? ' start' : ' ')}`}>
           <div className='blank'>&nbsp;</div>
 
           <Button
             classes='up'
-            disabled={this.props.disabled.n === true ? 'disabled' : null}
-            label={this.props.stage === 2 ? 'forward' : 'up'}
+            disabled={disabled.n === true ? 'disabled' : null}
+            label={stage === 2 ? 'forward' : 'up'}
             onClick={() => this.debounceAction('click', 'n')}
           />
 
@@ -93,11 +90,7 @@ class DPad extends Component {
 
           <Button
             classes='left'
-            disabled={
-              this.props.stage === 2 || this.props.disabled.w === true
-                ? 'disabled'
-                : null
-            }
+            disabled={stage === 2 || disabled.w === true ? 'disabled' : null}
             label='left'
             onClick={() => this.debounceAction('click', 'w')}
           />
@@ -106,11 +99,7 @@ class DPad extends Component {
 
           <Button
             classes='right'
-            disabled={
-              this.props.stage === 2 || this.props.disabled.e === true
-                ? 'disabled'
-                : null
-            }
+            disabled={stage === 2 || disabled.e === true ? 'disabled' : null}
             label='right'
             onClick={() => this.debounceAction('click', 'e')}
           />
@@ -119,8 +108,8 @@ class DPad extends Component {
 
           <Button
             classes='down'
-            disabled={this.props.disabled.s === true ? 'disabled' : null}
-            label={this.props.stage === 2 ? 'back' : 'down'}
+            disabled={disabled.s === true ? 'disabled' : null}
+            label={stage === 2 ? 'back' : 'down'}
             onClick={() => this.debounceAction('click', 's')}
           />
 
@@ -144,7 +133,7 @@ class DPad extends Component {
         </div>
 
         <Button
-          classes={'fire-button ' + this.props.ready}
+          classes={'fire-button ' + ready}
           id='fire-button'
           label='Found It'
           onClick={() => this.debounceAction('click', 'fire')}
@@ -152,6 +141,16 @@ class DPad extends Component {
       </div>
     )
   }
+}
+
+DPad.propTypes = {
+  disabled: PropTypes.object,
+  handleKeyPress: PropTypes.func,
+  handleRotate: PropTypes.func,
+  map: PropTypes.number,
+  onClick: PropTypes.func,
+  ready: PropTypes.string,
+  stage: PropTypes.number
 }
 
 export default DPad

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 /**
  * Boat component used in GameLineup.js compontent
@@ -7,30 +8,36 @@ import React, { Component } from 'react'
 
 class Boat extends Component {
   render () {
+    const { styles } = this.props
+
     const degrees =
       parseInt(
-        this.props.styles.transform.replace('rotate(', '').replace('deg)', ''),
+        styles.transform.replace('rotate(', '').replace('deg)', ''),
         10
       ) - 180
     const shooterStyle = {
-      left: this.props.styles.left + 55,
-      top: this.props.styles.top + 46,
-      transform: this.props.styles.transform
+      left: styles.left + 55,
+      top: styles.top + 46,
+      transform: styles.transform
     }
     const shooterTwinStyle = {
-      left: this.props.styles.left + 58,
-      top: this.props.styles.top + 46,
+      left: styles.left + 58,
+      top: styles.top + 46,
       transform: 'rotate(' + degrees + 'deg)'
     }
 
     return (
       <div id='boat-layer'>
-        <div id='boat' style={this.props.styles} />
+        <div id='boat' style={styles} />
         <div id='shooter-1' className='shooter' style={shooterStyle} />
         <div id='shooter-1-twin' className='shooter' style={shooterTwinStyle} />
       </div>
     )
   }
+}
+
+Boat.propTypes = {
+  styles: PropTypes.object
 }
 
 export default Boat

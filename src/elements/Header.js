@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import debounce from 'lodash.debounce'
+import PropTypes from 'prop-types'
 
 /**
- *
+ * Game Header.
  * @type {Object}
  */
 
@@ -10,15 +11,14 @@ class Header extends Component {
   constructor (props) {
     super(props)
 
-    this.debounceAction = debounce(this.handleClick, 500)
-    this.handleClick = this.handleClick.bind(this)
+    this.debounceAction = debounce(this._handleClick, 500)
   }
 
   /**
    * Handles a debounced click action.
    * @param {string} type string that determines which method to call on user click.
    */
-  handleClick (type) {
+  _handleClick (type) {
     if (type === 'info') {
       this.props.infoClick()
     }
@@ -51,6 +51,11 @@ class Header extends Component {
       </div>
     )
   }
+}
+
+Header.propTypes = {
+  infoClick: PropTypes.func,
+  title: PropTypes.string
 }
 
 export default Header

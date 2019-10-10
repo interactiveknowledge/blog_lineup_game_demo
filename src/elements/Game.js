@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import AudioPlayer from 'react-audio-player'
 import CloneDeep from 'clone-deep'
+import PropTypes from 'prop-types'
 
 /**
  * The interactive game of the GameLineup.js activity.
@@ -22,21 +23,6 @@ class Game extends Component {
   constructor (props) {
     super(props)
 
-    this.doItForMe = this.doItForMe.bind(this)
-    this.getDirection = this.getDirection.bind(this)
-    this.getPixel = this.getPixel.bind(this)
-    this.handleKeyPress = this.handleKeyPress.bind(this)
-    this.handleRotate = this.handleRotate.bind(this)
-    this.isLandCollision = this.isLandCollision.bind(this)
-    this.loadImage = this.loadImage.bind(this)
-    this.moveBoat = this.moveBoat.bind(this)
-    this.onClickDPad = this.onClickDPad.bind(this)
-    this.onClickMessage = this.onClickMessage.bind(this)
-
-    this.question = this.props.question
-    this.activity = this.props.activity
-    this.slide = this.props.slide
-
     this.canvasWidth = 900
     this.canvasHeight = 680
     this.minX = 20
@@ -48,10 +34,10 @@ class Game extends Component {
     this.state = this.props.mapState
   }
 
-  componentDidMount = async () => {
-    await this.loadImage()
+  componentDidMount = () => {
+    this._loadImage()
 
-    document.addEventListener('keypress', this.keyboardPress)
+    document.addEventListener('keypress', this._keyboardPress)
   };
 
   componentDidUpdate = (prevProps) => {
@@ -62,7 +48,7 @@ class Game extends Component {
       const shooter2 = document.getElementById('shooter-2')
       const shooter2Twin = document.getElementById('shooter-2-twin')
 
-      this.loadImage()
+      this._loadImage()
 
       // Resets all our shooters.
       shooter2.parentNode.removeChild(shooter)
@@ -76,50 +62,97 @@ class Game extends Component {
       shooter2.setAttribute('id', 'shooter-1')
       shooter2Twin.setAttribute('id', 'shooter-1-twin')
 
-      this.setState(this.props.mapState)
+      this._resetMapState()
     }
-  };
+  }
 
   /**
-   * Loads the outline image and draws it on the canvas.
+   * If user misses, offer a "do it for me" option to auto finish the game.
    */
-  loadImage = () => {
-    const image = new Image()
-    const context = this.canvas.getContext('2d')
+  _doItForMe = () => {
+    let top
+    let left
+    let transform
+    let top2
+    let left2
+    let transform2
 
-    context.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
-
-    image.onload = () => {
-      context.drawImage(image, 0, 0, this.canvasWidth, this.canvasHeight)
+    switch (this.props.map) {
+      case 1:
+        top = 420
+        left = 650
+        transform = 'rotate(101deg)'
+        break
+      case 2:
+        top = 340
+        left = 460
+        transform = 'rotate(133deg)'
+        break
+      case 3:
+        top = 320
+        left = 668
+        transform = 'rotate(121deg)'
+        break
+      default:
+        break
     }
 
-    image.src =
-      this.props.map === 1
-        ? canvasImg1
-        : this.props.map === 2
-          ? canvasImg2
-          : canvasImg3
-    image.width = this.canvasWidth
-    image.height = this.canvasHeight
-  };
+    if (top && left && transform) {
+      this._onClickMessage()
+      this.setState({
+        boat: {
+          top: top,
+          left: left,
+          transform: transform
+        }
+      })
 
-  /**
-   * Add in additional keyboard controls.
-   */
-  keyboardPress = (event) => {
-    if (event.key === 'l') {
-      this.handleRotate('left')
-    } else if (event.key === 'r') {
-      this.handleRotate('right')
-    } else if (event.key === 'Enter') {
-      this.onClickDPad('fire')
+      setTimeout(() => {
+        this._onClickDPad('fire-auto')
+      }, 1500)
+
+      setTimeout(() => {
+        this._onClickMessage()
+
+        switch (this.props.map) {
+          case 1:
+            top2 = 343
+            left2 = 662
+            transform2 = 'rotate(20.5deg)'
+            break
+          case 2:
+            top2 = 340
+            left2 = 460
+            transform2 = 'rotate(223.5deg)'
+            break
+          case 3:
+            top2 = 423
+            left2 = 606
+            transform2 = 'rotate(33.5deg)'
+            break
+          default:
+            break
+        }
+
+        this.setState({
+          boat: {
+            top: top2,
+            left: left2,
+            transform: transform2
+          }
+        })
+      }, 3800)
+
+      setTimeout(() => {
+        this._onClickDPad('fire-auto')
+      }, 5300)
     }
   }
 
   /**
    * Get the Boat element's correct rotation.
    */
-  getCorrectRotation = (degrees) => {
+  _getCorrectRotation = (degrees) => {
     let degOffset = degrees - 360 * parseInt(degrees / 360, 10)
     let newDegrees = degrees
 
@@ -138,12 +171,12 @@ class Game extends Component {
     }
 
     return newDegrees
-  };
+  }
 
   /**
    * Get the degrees the boat is rotated.
    */
-  getDegrees = () => {
+  _getDegrees = () => {
     let degrees = 0
 
     try {
@@ -159,15 +192,15 @@ class Game extends Component {
     }
 
     return degrees
-  };
+  }
 
   /**
    * Helper method to determine which direction we're moving getting the transform: rotate(Xdeg) style attribute.
    * @param  {integer} degrees rotation degrees value from style transform attribute.
    * @return {string}         direction abbreviation (i.e. n = North)
    */
-  getDirection = (degrees) => {
-    degrees = this.getCorrectRotation(degrees)
+  _getDirection = (degrees) => {
+    degrees = this._getCorrectRotation(degrees)
 
     if (degrees === 0) {
       return 'w'
@@ -186,7 +219,7 @@ class Game extends Component {
     } else if (degrees > 0 - 90 && degrees < 0) {
       return 'sw'
     }
-  };
+  }
 
   /**
    * Helper method for getting pixel location from a canvas element.
@@ -194,7 +227,7 @@ class Game extends Component {
    * @param  {integer} y y coordinate
    * @return {string}   calculated (numerical) hexcode for the coordinates given on the canvas element.
    */
-  getPixel = (x, y) => {
+  _getPixel = (x, y) => {
     const canvas = document.getElementById('map-layer')
     const context = canvas.getContext('2d')
     const imageData = context.getImageData(x - 1, y - 1, 1, 1)
@@ -202,14 +235,14 @@ class Game extends Component {
     const rgb = ((d[0] << 16) | (d[1] << 8) | d[2]).toString(16)
 
     return ('000000' + rgb).slice(-6)
-  };
+  }
 
   /**
    * Method to help if user does not have touch capability.
    * @param  {string} key string of key description (i.e. "left")
    * @return {event}     state change
    */
-  handleKeyPress = (key) => {
+  _handleKeyPress = (key) => {
     const boatStyle = document.getElementById('boat').getAttribute('style')
     const newState = CloneDeep(this.state)
     let degrees = parseInt(
@@ -241,20 +274,19 @@ class Game extends Component {
 
       this.setState(newState)
     }
-  };
+  }
 
   /**
    * Method adjusts the degree value of the transform: rotate() style attribute.
    * @param  {object} e     event object
    * @param  {int} deltaX   delta x position
    * @param  {int} deltaY   delta y position
-
    *
    * @see https://github.com/dogfessional/react-swipeable#event-props
    */
-  handleRotate = (rotate) => {
-    this.handleKeyPress(rotate)
-  };
+  _handleRotate = (rotate) => {
+    this._handleKeyPress(rotate)
+  }
 
   /**
    * Method to determine if given coordinates is a land coolision.
@@ -262,22 +294,58 @@ class Game extends Component {
    * @param  {integer}  y [description]
    * @return {Boolean}   true is "yes land collision"
    */
-  isLandCollision = (x, y) => {
+  _isLandCollision = (x, y) => {
     if (this.state.stage === 2) {
       x = parseInt(x, 10)
       y = parseInt(y, 10)
     }
-    const color = this.getPixel(x, y)
+    const color = this._getPixel(x, y)
 
     return color !== 'ffffff'
-  };
+  }
+
+  /**
+   * Add in additional keyboard controls.
+   */
+  _keyboardPress = (event) => {
+    if (event.key === 'l') {
+      this._handleRotate('left')
+    } else if (event.key === 'r') {
+      this._handleRotate('right')
+    } else if (event.key === 'Enter') {
+      this._onClickDPad('fire')
+    }
+  }
+
+  /**
+   * Loads the outline image and draws it on the canvas.
+   */
+  _loadImage = () => {
+    const image = new Image()
+    const context = this.canvas.getContext('2d')
+
+    context.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
+
+    image.onload = () => {
+      context.drawImage(image, 0, 0, this.canvasWidth, this.canvasHeight)
+    }
+
+    image.src =
+      this.props.map === 1
+        ? canvasImg1
+        : this.props.map === 2
+          ? canvasImg2
+          : canvasImg3
+    image.width = this.canvasWidth
+    image.height = this.canvasHeight
+  }
 
   /**
    * Calculates where and how far the boat should move.
    * @param  {string} direction string telling us which direction we're wanting to move the boat.
    * @return {event}           state update
    */
-  moveBoat = (direction) => {
+  _moveBoat = (direction) => {
     const boat = document.getElementById('boat').getBoundingClientRect()
     let newState = CloneDeep(this.state)
 
@@ -337,11 +405,11 @@ class Game extends Component {
         ),
         10
       )
-      forward = this.getDirection(degrees)
+      forward = this._getDirection(degrees)
       backward =
         degrees >= 0
-          ? this.getDirection(0 - 180 + degrees)
-          : this.getDirection(180 + degrees)
+          ? this._getDirection(0 - 180 + degrees)
+          : this._getDirection(180 + degrees)
 
       // convert degrees to radians.
       angle =
@@ -356,12 +424,12 @@ class Game extends Component {
       adjacent = Math.cos(radians) * multiplier
 
       if (direction === 'n') {
-        direction = this.getDirection(degrees)
+        direction = this._getDirection(degrees)
       } else {
         if (degrees >= 0) {
-          direction = this.getDirection(0 - 180 + degrees)
+          direction = this._getDirection(0 - 180 + degrees)
         } else {
-          direction = this.getDirection(180 + degrees)
+          direction = this._getDirection(180 + degrees)
         }
       }
     }
@@ -426,21 +494,21 @@ class Game extends Component {
 
     if (this.state.stage === 1) {
       newState.disabled.n =
-        top <= this.minY || this.isLandCollision(coords.n.x, coords.n.y, 'n')
+        top <= this.minY || this._isLandCollision(coords.n.x, coords.n.y, 'n')
       newState.disabled.e =
-        left >= this.maxX || this.isLandCollision(coords.e.x, coords.e.y, 'e')
+        left >= this.maxX || this._isLandCollision(coords.e.x, coords.e.y, 'e')
       newState.disabled.s =
-        top >= this.maxY || this.isLandCollision(coords.s.x, coords.s.y, 's')
+        top >= this.maxY || this._isLandCollision(coords.s.x, coords.s.y, 's')
       newState.disabled.w =
-        left <= this.minX || this.isLandCollision(coords.w.x, coords.w.y, 'w')
+        left <= this.minX || this._isLandCollision(coords.w.x, coords.w.y, 'w')
     } else {
-      newState.disabled.n = this.isLandCollision(
+      newState.disabled.n = this._isLandCollision(
         coords[forward].x,
         coords[forward].y
       )
       newState.disabled.e = true
       newState.disabled.w = true
-      newState.disabled.s = this.isLandCollision(
+      newState.disabled.s = this._isLandCollision(
         coords[backward].x,
         coords[backward].y
       )
@@ -456,14 +524,14 @@ class Game extends Component {
     }
 
     this.setState(newState)
-  };
+  }
 
   /**
    * Method handling when a user clicks the DPad component.
    * @param  {string} direction
    * @return {event}           state update
    */
-  onClickDPad = (direction) => {
+  _onClickDPad = (direction) => {
     const boat = document.getElementById('boat')
     const shooter = document.getElementById('shooter-' + this.state.stage)
     const shooterTwin = document.getElementById(
@@ -486,22 +554,38 @@ class Game extends Component {
             shooter.setAttribute('class', 'shooter fire')
 
             this.audioFire.audioEl.play()
-            this.onFire(this.state.stage, direction)
+            this._onFire(this.state.stage, direction)
             break
           default:
-            this.moveBoat(direction)
+            this._moveBoat(direction)
             break
         }
       }
     }
-  };
+  }
+
+  /**
+   * Reaction to clicking the modal messages
+   */
+  _onClickMessage = () => {
+    if (this.message) {
+      const message = this.message.getElementsByTagName('p')
+      this.message.setAttribute('class', 'message active fadeOut animated')
+      setTimeout(() => {
+        if (this.message) {
+          message[0].innerText = null
+          this.message.setAttribute('class', 'message')
+        }
+      }, 750)
+    }
+  }
 
   /**
    * Method that handles when a user clicks and is ready to "fire" at the targets. Calculates the hit.
    * @param  {integer} stage 1 or 2
    * @return {event}       state update
    */
-  onFire = (stage, fire) => {
+  _onFire = (stage, fire) => {
     const newState = CloneDeep(this.state)
     const layer = document.getElementById('boat-layer')
     const layerOffset = document
@@ -520,7 +604,7 @@ class Game extends Component {
       10
     )
 
-    const direction = this.getDirection(degrees)
+    const direction = this._getDirection(degrees)
 
     if (
       this.message.getAttribute('class').indexOf('active') >= 0 ||
@@ -731,116 +815,24 @@ class Game extends Component {
         }
       }
     }, 0.001)
-  };
+  }
 
   /**
-   * If user misses, offer a "do it for me" option to auto finish the game.
+   * Resets the map state.
    */
-  doItForMe = () => {
-    let top
-    let left
-    let transform
-    let top2
-    let left2
-    let transform2
-
-    switch (this.props.map) {
-      case 1:
-        top = 420
-        left = 650
-        transform = 'rotate(101deg)'
-        break
-      case 2:
-        top = 340
-        left = 460
-        transform = 'rotate(133deg)'
-        break
-      case 3:
-        top = 320
-        left = 668
-        transform = 'rotate(121deg)'
-        break
-      default:
-        break
-    }
-
-    if (top && left && transform) {
-      this.onClickMessage()
-      this.setState({
-        boat: {
-          top: top,
-          left: left,
-          transform: transform
-        }
-      })
-
-      setTimeout(() => {
-        this.onClickDPad('fire-auto')
-      }, 1500)
-
-      setTimeout(() => {
-        this.onClickMessage()
-
-        switch (this.props.map) {
-          case 1:
-            top2 = 343
-            left2 = 662
-            transform2 = 'rotate(20.5deg)'
-            break
-          case 2:
-            top2 = 340
-            left2 = 460
-            transform2 = 'rotate(223.5deg)'
-            break
-          case 3:
-            top2 = 423
-            left2 = 606
-            transform2 = 'rotate(33.5deg)'
-            break
-          default:
-            break
-        }
-
-        this.setState({
-          boat: {
-            top: top2,
-            left: left2,
-            transform: transform2
-          }
-        })
-      }, 3800)
-
-      setTimeout(() => {
-        this.onClickDPad('fire-auto')
-      }, 5300)
-    }
-  };
-
-  /**
-   * Reaction to clicking the modal messages
-   */
-  onClickMessage = () => {
-    if (this.message) {
-      const message = this.message.getElementsByTagName('p')
-      this.message.setAttribute('class', 'message active fadeOut animated')
-      setTimeout(() => {
-        if (this.message) {
-          message[0].innerText = null
-          this.message.setAttribute('class', 'message')
-        }
-      }, 750)
-    }
-  };
+  _resetMapState = () => {
+    this.setState(this.props.mapState)
+  }
 
   render = () => {
-    let degrees = this.getDegrees()
+    let degrees = this._getDegrees()
 
     return (
       <div className='wrapper-game'>
         <DPad
-          handleKeyPress={this.handleKeyPress}
-          handleRotate={this.handleRotate}
-          onClick={this.onClickDPad}
+          handleKeyPress={this._handleKeyPress}
+          handleRotate={this._handleRotate}
+          onClick={this._onClickDPad}
           disabled={this.state.disabled}
           ready={this.state.ready}
           rotation={this.state.boat.transform}
@@ -858,7 +850,7 @@ class Game extends Component {
         />
         <div
           id='map'
-          className={'activity-content animated map-' + this.props.map}>
+          className={`activity-content animated map-${this.props.map}`}>
           <Target name='clue1' stage='1' current={this.state.stage} />
           <Target name='clue2' stage='1' current={this.state.stage} />
           <Target name='clue3' stage='2' current={this.state.stage} />
@@ -867,7 +859,7 @@ class Game extends Component {
           <Boat
             styles={this.state.boat}
             stage={this.state.stage}
-            degrees={this.getCorrectRotation(degrees)}
+            degrees={this._getCorrectRotation(degrees)}
           />
 
           <div id='air-layer' />
@@ -881,10 +873,10 @@ class Game extends Component {
             <Button
               label='Ok'
               onClick={() => {
-                this.onClickMessage()
+                this._onClickMessage()
               }}
             />
-            <Button label='Do It For Me' onClick={() => this.doItForMe()} />
+            <Button label='Do It For Me' onClick={() => this._doItForMe()} />
             <Button
               label='Next Map'
               onClick={() => {
@@ -917,7 +909,13 @@ class Game extends Component {
         />
       </div>
     )
-  };
+  }
+}
+
+Game.propTypes = {
+  map: PropTypes.number,
+  mapState: PropTypes.object,
+  updateMap: PropTypes.func
 }
 
 export default Game

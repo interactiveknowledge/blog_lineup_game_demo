@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import debounce from 'lodash.debounce'
+import PropTypes from 'prop-types'
 
 /**
  * Generic button compontent used throughout the site.
@@ -10,42 +11,48 @@ class Button extends Component {
   constructor (props) {
     super(props)
 
-    this.debounceAction = debounce(this.handleClick, 500)
-    this.handleClick = this.handleClick.bind(this)
+    this.debounceAction = debounce(this._handleClick, 500)
   }
 
   /**
    * Handles a debounced click action.
    */
-  handleClick () {
+  _handleClick () {
     if (this.props.onClick) {
       this.props.onClick()
     }
   }
 
   render () {
+    const { classes, disabled, id, label, styles } = this.props
     return (
       <button
         className={
           'button-' +
-          this.props.label.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() +
-          (this.props.classes ? ' ' + this.props.classes : '')
+          label.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() +
+          (classes ? ' ' + classes : '')
         }
-        disabled={this.props.disabled ? this.props.disabled : false}
+        disabled={disabled || false}
         id={
-          this.props.id
-            ? this.props.id
-            : 'button-' +
-              this.props.label.replace(/[^a-zA-Z0-9]/g, '').toLowerCase()
+          id || 'button-' +
+              label.replace(/[^a-zA-Z0-9]/g, '').toLowerCase()
         }
         onClick={() => this.debounceAction()}
-        ref={this.props.ref}
-        style={this.props.styles ? this.props.styles : null}
+        style={styles || null}
       >
-        {this.props.label}
+        {label}
       </button>
     )
   }
+}
+
+Button.propTypes = {
+  classes: PropTypes.string,
+  disabled: PropTypes.string,
+  id: PropTypes.string,
+  label: PropTypes.string,
+  onClick: PropTypes.func,
+  styles: PropTypes.object
 }
 
 export default Button
