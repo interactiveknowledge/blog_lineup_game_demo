@@ -4,7 +4,7 @@ import CloneDeep from 'clone-deep';
 
 /**
  * The interactive game of the GameLineup.js activity.
- * (Renders after the LineupIntro.js compontent has played and completed.)
+ *
  * @type {Object}
  * @uses clone-deep
  */
@@ -64,6 +64,7 @@ class Game extends Component {
 
       this.loadImage();
 
+      // Resets all our shooters.
       shooter2.parentNode.removeChild(shooter);
       shooter2Twin.parentNode.removeChild(shooterTwin);
 
@@ -80,8 +81,7 @@ class Game extends Component {
   };
 
   /**
-   * [loadImage description]
-   * @return {[type]} [description]
+   * Loads the outline image and draws it on the canvas.
    */
   loadImage = () => {
     const image = new Image();
@@ -116,6 +116,9 @@ class Game extends Component {
     }
   }
 
+  /**
+   * Get the Boat element's correct rotation.
+   */
   getCorrectRotation = (degrees) => {
     let degOffset = degrees - 360 * parseInt(degrees / 360, 10);
     let newDegrees = degrees;
@@ -137,6 +140,9 @@ class Game extends Component {
     return newDegrees;
   };
 
+  /**
+   * Get the degrees the boat is rotated.
+   */
   getDegrees = () => {
     let degrees = 0;
 
