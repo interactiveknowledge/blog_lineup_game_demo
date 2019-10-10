@@ -50,6 +50,8 @@ class Game extends Component {
 
   componentDidMount = async () => {
     await this.loadImage();
+
+    document.addEventListener('keypress', this.keyboardPress)
   };
 
   componentDidUpdate = (prevProps) => {
@@ -100,6 +102,19 @@ class Game extends Component {
     image.width = this.canvasWidth;
     image.height = this.canvasHeight;
   };
+
+  /**
+   * Add in additional keyboard controls.
+   */
+  keyboardPress = (event) => {
+    if (event.key === 'l') {
+      this.handleRotate('left')
+    } else if (event.key === 'r') {
+      this.handleRotate('right')
+    } else if (event.key === 'Enter') {
+      this.onClickDPad('fire')
+    }
+  }
 
   getCorrectRotation = (degrees) => {
     let degOffset = degrees - 360 * parseInt(degrees / 360, 10);
