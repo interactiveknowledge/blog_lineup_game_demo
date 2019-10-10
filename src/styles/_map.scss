@@ -1,0 +1,117 @@
+#map-layer {
+  background-color: white;
+  height: 680px;
+  opacity: 0;
+  position: absolute;
+  top: 100px;
+  width: 900px;
+}
+
+#map {
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: 902px 682px;
+  height: 680px;
+  opacity: 1;
+  position: absolute;
+  top: 100px;
+  width: 900px;
+
+  &.map-1 {
+    background-image: url("https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/ns4c-map-1-overlay.png");
+  }
+
+  &.map-2 {
+    background-image: url("https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/jjqj-map-2-overlay.png");
+  }
+
+  &.map-3 {
+    background-image: url("https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/ZxZl-map-3-overlay.png");
+  }
+
+  .target {
+    background-image: url("https://uploads.codesandbox.io/uploads/user/41d4885c-5c50-431c-9930-be51db5ee62a/McGh-marker.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: block;
+    font-size: 0;
+    height: 42px;
+    position: absolute;
+    width: 42px;
+  }
+}
+
+.map-1 {
+  .target {
+    &#clue1 {
+      left: 740px;
+      top: 191px;
+    }
+
+    &#clue2 {
+      left: 768px;
+      top: 67px;
+    }
+
+    &#clue3 {
+      left: 157px;
+      top: 185px;
+    }
+
+    &#clue4 {
+      left: 59px;
+      top: 144px;
+    }
+
+  }
+}
+
+.map-2 {
+  .target {
+    &#clue1 {
+      left: 676px;
+      top: 176px;
+    }
+
+    &#clue2 {
+      left: 780px;
+      top: 67px;
+    }
+
+    &#clue3 {
+      left: 611px;
+      top: 480px;
+    }
+
+    &#clue4 {
+      left: 711px;
+      top: 568px;
+    }
+
+  }
+}
+
+.map-3 {
+  .target {
+    &#clue1 {
+      left: 832px;
+      top: 107px;
+    }
+
+    &#clue2 {
+      left: 788px;
+      top: 194px;
+    }
+
+    &#clue3 {
+      left: 97px;
+      top: 90px;
+    }
+
+    &#clue4 {
+      left: 508px;
+      top: 381px;
+    }
+  }
+}

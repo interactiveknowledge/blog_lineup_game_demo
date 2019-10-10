@@ -1,0 +1,23 @@
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 19px 4px rgba($white, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 19px 4px rgba($white, 0.6);
+  }
+
+  100% {
+    box-shadow: 0 0 19px 4px rgba($white, 0);
+  }
+}
+
+@keyframes fire {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 537px;
+  }
+}

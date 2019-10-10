@@ -1,0 +1,52 @@
+{
+  "name": "blog_linup_game_demo",
+  "version": "1.0.0",
+  "description": "Demo of project referenced in blog post at https://interactiveknowledge.com",
+  "license" : "BSD-3-Clause",
+  "private": true,
+  "contributors": [
+    {
+      "name": "Interactive Knowledge",
+      "email": "support@interactiveknowledge.com",
+      "url": "https://interactiveknowledge.com"
+    },
+    {
+      "name": "Rosemary Stanley",
+      "email": "rosemary@interactiveknowledge.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/interactiveknowledge/blog_lineup_game_demo.git"
+  },
+  "keywords": [],
+  "main": "src/index.js",
+  "dependencies": {
+    "animate.css": "3.7.2",
+    "arrow-keys-react": "1.0.6",
+    "clone-deep": "4.0.1",
+    "lodash.debounce": "4.0.8",
+    "node-sass": "^4.12.0",
+    "normalize.css": "8.0.1",
+    "react": "16.10.2",
+    "react-audio-player": "0.11.1",
+    "react-dom": "16.10.2",
+    "react-hot-loader": "4.12.14",
+    "react-scripts": "3.2.0"
+  },
+  "devDependencies": {
+    "typescript": "3.3.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
