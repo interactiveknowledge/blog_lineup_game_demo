@@ -14,6 +14,13 @@ To run the demo game locally:
 3. `yarn install`
 4. `yarn start`
 
+## Playing
+
+* Use the info icon on the top right to see instructions.
+* Use the arrow keys or the Move control to move the boat.
+* Use the L or R keys or the Turn control to rotate the boat.
+* Use the enter key or Found It button when you are lined up.
+
 ## Note
 
 This game was originally created for a kiosk, so it is not responsive. It's best viewed on desktop or screen that is 1100px or wider.
