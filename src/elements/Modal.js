@@ -50,14 +50,14 @@ class Modal extends Component {
             <h1>How To Play This Game</h1>
             <div className="text">
               <p>
-                Drive your boat with the “<strong>MOVE</strong>” control.
+                Drive your boat with the “<strong>MOVE</strong>” control or use the arrow keys.
               </p>
               <p>
-                Rotate your boat with the “<strong>TURN</strong>” control.{" "}
+                Rotate your boat with the “<strong>TURN</strong>” control or “<strong>L</strong>” and “<strong>R</strong>” keys.{" "}
               </p>
               <p>
                 When you are positioned for the line-up, press the “
-                <strong>FOUND IT</strong>” button.
+                <strong>FOUND IT</strong>” or “<strong>ENTER</strong>” key.
               </p>
             </div>
             <Button
