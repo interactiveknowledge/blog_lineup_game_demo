@@ -2,7 +2,7 @@
   "name": "blog_linup_game_demo",
   "version": "1.0.0",
   "description": "Demo of project referenced in blog post at https://interactiveknowledge.com",
-  "license" : "BSD-3-Clause",
+  "license" : "SEE LICENSE IN LICENSE.MD",
   "private": true,
   "contributors": [
     {
