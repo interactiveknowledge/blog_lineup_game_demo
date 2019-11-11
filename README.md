@@ -3,7 +3,7 @@
 The following is code related to a blog post to demo the project work mentioned.
 
 View the [Live Demo](https://ik-blog-linup-demo.herokuapp.com/).
-Read the Blog Post: [Pay attention in math class, kids](https://interactiveknowledge.com/blog).
+Read the Blog Post: [Pay attention in math class, kids](https://interactiveknowledge.com/insights/pay-attention-math-class-kids).
 
 ## To Install and Run
 
